@@ -1,0 +1,1483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CLEANN HQ — Internal Information Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cleann-blue: #003B5C;
+    --cleann-blue-90: #1A4F6D;
+    --cleann-blue-tint-2: #66899D;
+    --cleann-blue-tint-4: #CCD8DE;
+    --cerulean: #3D97B7;
+    --cerulean-tint-3: #B1D5E2;
+    --cerulean-tint-4: #D8EAF1;
+    --soft-cyan: #B4E1EC;
+    --soft-cyan-tint-3: #E3F4F8;
+    --soft-cyan-tint-4: #F3FAFC;
+    --cider-amber: #D18B2F;
+    --cider-amber-dark: #A06A1F;
+    --cider-amber-tint-1: #DAA259;
+    --cider-amber-tint-4: #F6E8D5;
+    --dusty-sage: #89998B;
+    --muted-olive: #67715B;
+    --bg: #F3FAFC;
+    --surface: #FFFFFF;
+    --text-primary: #003B5C;
+    --text-body: #1A1A17;
+    --text-muted: #66899D;
+    --text-dim: #99B1BE;
+    --border: #CCD8DE;
+    --serif: 'Cormorant Garamond', 'IvyPresto Text', Georgia, 'Times New Roman', serif;
+    --sans: 'Inter', 'Proxima Nova', Helvetica, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text-body);
+    line-height: 1.55;
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, .serif { font-family: var(--serif); color: var(--text-primary); }
+  .container { max-width: 1140px; margin: 0 auto; }
+  .topbar {
+    background: var(--cleann-blue);
+    color: #fff;
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .brand { display: flex; align-items: center; gap: 36px; }
+  .wordmark {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    color: #fff;
+  }
+  .wordmark-sub {
+    font-family: var(--sans);
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    color: var(--soft-cyan);
+    text-transform: uppercase;
+    margin-left: 6px;
+    font-weight: 500;
+  }
+  .nav { display: flex; gap: 4px; }
+  .nav a {
+    font-size: 13px;
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    padding: 8px 14px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+    letter-spacing: 0.02em;
+  }
+  .nav a:hover { color: #fff; }
+  .nav a.active {
+    color: #fff;
+    font-weight: 500;
+    border-bottom-color: var(--cider-amber);
+  }
+  .user-block { display: flex; align-items: center; gap: 12px; }
+  .user-name { font-size: 12px; color: var(--soft-cyan); letter-spacing: 0.04em; }
+  .avatar {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: var(--cider-amber);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 600;
+    font-family: var(--sans);
+  }
+  .amber-rule { height: 3px; background: var(--cider-amber); }
+  .main { padding: 36px 32px 60px; }
+  .page { display: none; }
+  .page.active { display: block; }
+  h1 { margin: 0 0 6px; font-size: 36px; font-weight: 600; letter-spacing: -0.005em; }
+  .subtitle {
+    margin: 0 0 24px;
+    font-size: 14px;
+    color: var(--text-muted);
+    font-family: var(--sans);
+  }
+  h2 {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--cerulean);
+    font-family: var(--sans);
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+  }
+  .search-wrap { margin-bottom: 28px; }
+  .search {
+    display: flex;
+    gap: 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 4px;
+  }
+  .search input {
+    flex: 1;
+    padding: 13px 16px;
+    border: none;
+    font-size: 15px;
+    font-family: var(--sans);
+    background: transparent;
+    color: var(--text-body);
+  }
+  .search input:focus { outline: none; }
+  .search input::placeholder { color: var(--text-dim); }
+  .search button, .btn-primary {
+    background: var(--cider-amber);
+    color: #fff;
+    border: none;
+    padding: 0 22px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: var(--sans);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .search button:hover, .btn-primary:hover { background: var(--cider-amber-dark); }
+  .btn-primary { padding: 13px 26px; }
+  .btn-ghost {
+    background: transparent;
+    color: var(--cleann-blue);
+    border: 1px solid var(--cleann-blue);
+    padding: 12px 24px;
+    border-radius: 3px;
+    font-size: 13px; font-weight: 600;
+    cursor: pointer;
+    font-family: var(--sans);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .btn-ghost:hover { background: var(--cerulean-tint-4); }
+  .info-row {
+    display: grid;
+    grid-template-columns: 1fr 1.7fr;
+    gap: 16px;
+    margin-bottom: 44px;
+  }
+  .weather-card {
+    background: var(--cleann-blue);
+    color: #fff;
+    border-radius: 4px;
+    padding: 22px 26px;
+    border-top: 3px solid var(--cider-amber);
+    position: relative;
+    overflow: hidden;
+  }
+  .weather-card::after {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 160px; height: 160px;
+    background: radial-gradient(circle, rgba(180, 225, 236, 0.10) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .weather-eyebrow {
+    font-size: 10px;
+    color: var(--soft-cyan);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .weather-dot {
+    width: 6px; height: 6px;
+    background: var(--cider-amber);
+    border-radius: 50%;
+  }
+  .weather-main {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    position: relative;
+    z-index: 1;
+  }
+  .weather-temp {
+    font-family: var(--serif);
+    font-size: 56px;
+    font-weight: 600;
+    line-height: 0.95;
+    color: #fff;
+  }
+  .weather-temp .deg {
+    font-size: 26px;
+    color: var(--soft-cyan);
+    margin-left: 2px;
+    vertical-align: super;
+  }
+  .weather-icon {
+    width: 60px; height: 60px;
+    flex-shrink: 0;
+    margin-top: 4px;
+    opacity: 0.9;
+  }
+  .weather-condition {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 16px;
+    color: var(--soft-cyan);
+    margin-bottom: 4px;
+  }
+  .weather-feels {
+    font-size: 11px;
+    color: rgba(180, 225, 236, 0.65);
+    margin-bottom: 18px;
+    letter-spacing: 0.02em;
+  }
+  .weather-forecast {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(180, 225, 236, 0.18);
+  }
+  .weather-day { text-align: center; }
+  .weather-day .day-name {
+    font-size: 9px;
+    color: var(--soft-cyan);
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .weather-day .day-temps { font-size: 12px; color: #fff; }
+  .weather-day .day-temps .low {
+    color: rgba(180, 225, 236, 0.55);
+    margin-left: 4px;
+  }
+  .weather-note {
+    font-size: 11px;
+    color: var(--cider-amber-tint-1);
+    font-style: italic;
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(180, 225, 236, 0.18);
+    line-height: 1.45;
+  }
+  .news-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px 26px 14px;
+    border-top: 3px solid var(--cerulean);
+    display: flex;
+    flex-direction: column;
+  }
+  .news-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 12px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid var(--border);
+  }
+  .news-head h3 {
+    margin: 0;
+    font-family: var(--sans);
+    font-size: 11px;
+    color: var(--cleann-blue);
+    text-transform: uppercase;
+    letter-spacing: 0.10em;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .live-dot {
+    width: 6px; height: 6px;
+    background: var(--cider-amber);
+    border-radius: 50%;
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.45; transform: scale(0.8); }
+  }
+  .news-meta {
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .news-list { flex: 1; }
+  .news-item {
+    padding: 11px 0;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .news-item:hover { opacity: 0.65; }
+  .news-item:last-child { border-bottom: none; }
+  .news-source-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 5px;
+  }
+  .news-source {
+    font-size: 9px;
+    padding: 2px 7px;
+    border-radius: 2px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: var(--soft-cyan-tint-3);
+    color: var(--cleann-blue);
+  }
+  .news-source.compliance { background: var(--cider-amber-tint-4); color: var(--cider-amber-dark); }
+  .news-source.local { background: var(--cerulean-tint-4); color: var(--cleann-blue); }
+  .news-time {
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+  .news-headline {
+    font-family: var(--serif);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--cleann-blue);
+    line-height: 1.3;
+    margin: 0;
+  }
+  .news-footer {
+    text-align: center;
+    padding-top: 12px;
+    margin-top: 4px;
+    border-top: 1px solid var(--border);
+  }
+  .news-footer a {
+    font-size: 11px;
+    color: var(--cider-amber);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .news-footer a:hover { color: var(--cider-amber-dark); }
+  .section-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin: 0 0 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-head .more {
+    font-size: 11px;
+    color: var(--cider-amber);
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .section-head .more:hover { color: var(--cider-amber-dark); }
+  .categories {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 44px;
+  }
+  .category {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 18px;
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+  .category:hover { border-color: var(--cerulean); }
+  .category h3 {
+    font-family: var(--serif);
+    margin: 0 0 4px;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--cleann-blue);
+  }
+  .category p {
+    margin: 0;
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .recent, .gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 44px;
+  }
+  .asset {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+  .asset:hover { border-color: var(--cerulean); }
+  .asset-thumb {
+    height: 130px;
+    background: var(--cerulean-tint-4);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif);
+    font-size: 14px;
+    color: var(--cleann-blue);
+    font-style: italic;
+    text-align: center;
+    padding: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .asset-body { padding: 14px; }
+  .asset-title {
+    margin: 0 0 4px;
+    font-family: var(--serif);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--cleann-blue);
+  }
+  .asset-meta {
+    margin: 0 0 10px;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+  .pill {
+    font-size: 10px;
+    padding: 4px 10px;
+    border-radius: 2px;
+    font-weight: 600;
+    display: inline-block;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-family: var(--sans);
+  }
+  .pill-submitted { background: var(--soft-cyan-tint-3); color: var(--cleann-blue); }
+  .pill-acknowledged { background: var(--soft-cyan); color: var(--cleann-blue); }
+  .pill-progress { background: var(--cider-amber-tint-4); color: var(--cider-amber-dark); }
+  .pill-review { background: var(--cerulean-tint-3); color: var(--cleann-blue); }
+  .pill-delivered { background: var(--dusty-sage); color: #fff; }
+  .pill-risk { background: var(--cider-amber); color: #fff; }
+  .pill-latest { background: var(--dusty-sage); color: #fff; }
+  .ticket-table {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+  .ticket-row {
+    display: grid;
+    grid-template-columns: 2.5fr 1fr 1fr 1fr 1fr;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    gap: 16px;
+  }
+  .ticket-row:last-child { border-bottom: none; }
+  .ticket-header {
+    background: var(--soft-cyan-tint-4);
+    font-size: 10px;
+    color: var(--cleann-blue);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 12px 20px;
+  }
+  .ticket-row .col-label {
+    font-family: var(--serif);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--cleann-blue);
+    margin: 0 0 3px;
+  }
+  .ticket-row .col-meta { margin: 0; font-size: 11px; color: var(--text-muted); }
+  .col-date { font-size: 13px; color: var(--text-body); }
+  .col-date .date-label {
+    display: block;
+    font-size: 9px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 3px;
+    font-weight: 600;
+  }
+  .at-risk { color: var(--cider-amber-dark); font-weight: 600; }
+  .ticket-row.is-at-risk {
+    background: var(--cider-amber-tint-4);
+    border-left: 3px solid var(--cider-amber);
+  }
+  .cta {
+    background: var(--cleann-blue);
+    color: #fff;
+    border-radius: 4px;
+    padding: 28px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: 40px;
+  }
+  .cta-copy h3 {
+    font-family: var(--serif);
+    margin: 0 0 6px;
+    font-size: 24px;
+    font-weight: 600;
+    color: #fff;
+  }
+  .cta-copy p { margin: 0; font-size: 14px; color: var(--soft-cyan); }
+  .form-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 36px 40px;
+    max-width: 720px;
+  }
+  .form-group { margin-bottom: 22px; }
+  .form-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--cleann-blue);
+    margin-bottom: 6px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .form-group .help { font-size: 12px; color: var(--text-muted); margin: 0 0 8px; line-height: 1.5; }
+  .form-group .required-tag {
+    color: var(--cider-amber);
+    font-size: 10px;
+    font-weight: 600;
+    margin-left: 6px;
+    letter-spacing: 0.04em;
+  }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    font-size: 14px;
+    font-family: var(--sans);
+    background: var(--surface);
+    color: var(--text-body);
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    outline: none;
+    border-color: var(--cerulean);
+    box-shadow: 0 0 0 3px var(--cerulean-tint-4);
+  }
+  .form-group textarea { min-height: 120px; resize: vertical; line-height: 1.6; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .deadline-callout {
+    background: var(--soft-cyan-tint-3);
+    border-left: 3px solid var(--cerulean);
+    padding: 14px 18px;
+    margin-bottom: 22px;
+    border-radius: 0 3px 3px 0;
+  }
+  .deadline-callout p { margin: 0; font-size: 13px; color: var(--cleann-blue); line-height: 1.5; }
+  .deadline-callout strong { font-weight: 600; }
+  .toast {
+    position: fixed;
+    bottom: 30px; right: 30px;
+    background: var(--cleann-blue);
+    color: #fff;
+    padding: 16px 24px;
+    border-radius: 3px;
+    font-size: 13px;
+    border-left: 3px solid var(--cider-amber);
+    box-shadow: 0 8px 24px rgba(0, 59, 92, 0.20);
+    transform: translateY(100px);
+    opacity: 0;
+    transition: transform 0.3s, opacity 0.3s;
+    z-index: 1000;
+    max-width: 380px;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .modal-backdrop {
+    position: fixed; inset: 0;
+    background: rgba(0, 59, 92, 0.55);
+    display: none;
+    align-items: center; justify-content: center;
+    z-index: 999;
+    padding: 24px;
+  }
+  .modal-backdrop.show { display: flex; }
+  .modal {
+    background: var(--surface);
+    border-radius: 4px;
+    max-width: 760px;
+    width: 100%;
+    max-height: 90vh;
+    overflow: auto;
+    padding: 0;
+    border-top: 4px solid var(--cider-amber);
+  }
+  .modal-content { padding: 32px 36px 36px; }
+  .modal-head {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .modal h2 {
+    font-family: var(--serif);
+    margin: 0;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--cleann-blue);
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .modal-close {
+    background: none; border: none; font-size: 24px;
+    cursor: pointer; color: var(--text-muted);
+    line-height: 1;
+    font-family: var(--serif);
+  }
+  .modal-preview-area {
+    min-height: 320px;
+    background: var(--cleann-blue);
+    display: flex; align-items: center; justify-content: center;
+    padding: 36px;
+    position: relative;
+  }
+  .preview-info-bar {
+    background: var(--soft-cyan-tint-4);
+    padding: 10px 24px;
+    font-size: 11px;
+    color: var(--text-muted);
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    letter-spacing: 0.04em;
+  }
+  .preview-info-bar .label {
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--cleann-blue);
+    margin-right: 6px;
+  }
+  .preview-frame-label {
+    background: #fff;
+    border-radius: 3px;
+    padding: 32px 40px 36px;
+    text-align: center;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+    max-width: 360px;
+    width: 100%;
+    border: 1px solid var(--border);
+  }
+  .preview-frame-label .product-line {
+    font-size: 10px;
+    color: var(--cider-amber);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+  .preview-frame-label .product-name {
+    font-family: var(--serif);
+    font-size: 36px;
+    font-weight: 600;
+    color: var(--cleann-blue);
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+  .preview-frame-label .product-tagline {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .preview-frame-label .product-mark {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 0;
+    font-size: 10px;
+    color: var(--cleann-blue);
+    letter-spacing: 0.2em;
+    font-weight: 600;
+  }
+  .preview-frame-deck {
+    background: #fff;
+    border-radius: 3px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+    aspect-ratio: 16/9;
+    width: 100%;
+    max-width: 540px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 32px 40px;
+  }
+  .preview-frame-deck::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: var(--cider-amber);
+  }
+  .preview-frame-deck .deck-eyebrow {
+    font-size: 10px;
+    color: var(--cider-amber);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+  .preview-frame-deck .deck-title {
+    font-family: var(--serif);
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--cleann-blue);
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+  .preview-frame-deck .deck-subtitle {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .preview-frame-deck .deck-footer {
+    position: absolute;
+    bottom: 16px; left: 40px; right: 40px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 9px;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .preview-frame-pdf {
+    background: #fff;
+    width: 100%;
+    max-width: 380px;
+    aspect-ratio: 8.5/11;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+    padding: 28px 24px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 2px;
+  }
+  .preview-frame-pdf .pdf-header {
+    border-bottom: 2px solid var(--cleann-blue);
+    padding-bottom: 10px;
+    margin-bottom: 14px;
+  }
+  .preview-frame-pdf .pdf-eyebrow {
+    font-size: 8px;
+    color: var(--cider-amber);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .preview-frame-pdf .pdf-title {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--cleann-blue);
+    margin-top: 4px;
+    line-height: 1.1;
+  }
+  .preview-frame-pdf .pdf-line {
+    height: 5px;
+    background: var(--cleann-blue-tint-4);
+    border-radius: 1px;
+    margin-bottom: 6px;
+  }
+  .preview-frame-pdf .pdf-line.short { width: 70%; }
+  .preview-frame-pdf .pdf-line.medium { width: 88%; }
+  .preview-frame-pdf .pdf-block {
+    height: 60px;
+    background: var(--cerulean-tint-4);
+    border-radius: 2px;
+    margin: 14px 0;
+  }
+  .preview-frame-pdf .pdf-page-num {
+    position: absolute;
+    bottom: 12px; left: 0; right: 0;
+    text-align: center;
+    font-size: 9px;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+  }
+  .preview-frame-photo {
+    background: linear-gradient(135deg, var(--cleann-blue) 0%, var(--cerulean) 60%, var(--soft-cyan) 100%);
+    width: 100%;
+    max-width: 540px;
+    aspect-ratio: 4/3;
+    border-radius: 3px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+    display: flex;
+    align-items: flex-end;
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .preview-frame-photo .photo-meta {
+    color: #fff;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 14px;
+    background: rgba(0, 59, 92, 0.55);
+    padding: 8px 14px;
+    border-radius: 2px;
+  }
+  .preview-frame-logo {
+    background: var(--soft-cyan-tint-4);
+    width: 100%;
+    max-width: 420px;
+    aspect-ratio: 1/1;
+    border-radius: 3px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+    border: 1px solid var(--border);
+  }
+  .preview-frame-logo .logo-circle {
+    width: 90px; height: 90px;
+    border: 3px solid var(--cleann-blue);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--serif);
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--cleann-blue);
+    margin-bottom: 18px;
+  }
+  .preview-frame-logo .logo-wordmark {
+    font-family: var(--serif);
+    font-size: 36px;
+    font-weight: 600;
+    color: var(--cleann-blue);
+    letter-spacing: 0.18em;
+  }
+  .preview-frame-video {
+    background: #000;
+    width: 100%;
+    max-width: 540px;
+    aspect-ratio: 16/9;
+    border-radius: 3px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+  }
+  .preview-frame-video::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0, 59, 92, 0.5) 0%, transparent 50%, rgba(61, 151, 183, 0.4) 100%);
+    border-radius: 3px;
+  }
+  .preview-frame-video .play-btn {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+  }
+  .preview-frame-video .play-btn::after {
+    content: '';
+    width: 0; height: 0;
+    border-left: 22px solid var(--cleann-blue);
+    border-top: 14px solid transparent;
+    border-bottom: 14px solid transparent;
+    margin-left: 6px;
+  }
+  .preview-frame-video .video-meta {
+    position: absolute;
+    bottom: 14px; left: 16px;
+    color: #fff;
+    font-size: 12px;
+    background: rgba(0,0,0,0.55);
+    padding: 4px 10px;
+    border-radius: 2px;
+    z-index: 1;
+  }
+  .preview-frame-video .video-duration {
+    position: absolute;
+    bottom: 14px; right: 16px;
+    color: #fff;
+    font-size: 11px;
+    background: rgba(0,0,0,0.7);
+    padding: 3px 8px;
+    border-radius: 2px;
+    z-index: 1;
+  }
+  .modal-meta {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 10px 24px;
+    font-size: 13px;
+    margin-bottom: 24px;
+  }
+  .modal-meta .label {
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+  }
+  .modal-actions {
+    display: flex; gap: 12px;
+    padding-top: 22px;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .kanban {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+  .column {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 14px;
+  }
+  .col-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--cider-amber);
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--cleann-blue);
+    text-transform: uppercase;
+  }
+  .card {
+    background: var(--soft-cyan-tint-4);
+    border-radius: 3px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    cursor: grab;
+    border-left: 3px solid var(--cerulean);
+  }
+  .card:last-child { margin-bottom: 0; }
+  .card.at-risk-card {
+    background: var(--cider-amber-tint-4);
+    border-left-color: var(--cider-amber);
+  }
+  .card-title {
+    font-family: var(--serif);
+    margin: 0 0 4px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--cleann-blue);
+  }
+  .card-meta { margin: 0; font-size: 11px; color: var(--text-muted); }
+  .empty {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+  .empty .serif {
+    font-size: 24px;
+    color: var(--cleann-blue);
+    display: block;
+    margin-bottom: 12px;
+  }
+  .footer-note {
+    margin: 32px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+  .footer-note .serif {
+    color: var(--cleann-blue);
+    font-style: italic;
+    font-size: 13px;
+  }
+  @media (max-width: 760px) {
+    .topbar { flex-direction: column; gap: 14px; align-items: flex-start; padding: 16px 20px; }
+    .nav { flex-wrap: wrap; }
+    .main { padding: 24px 20px 40px; }
+    h1 { font-size: 30px; }
+    .info-row { grid-template-columns: 1fr; }
+    .categories { grid-template-columns: repeat(2, 1fr); }
+    .recent, .gallery { grid-template-columns: 1fr; }
+    .kanban { grid-template-columns: 1fr; }
+    .ticket-row { grid-template-columns: 1fr; gap: 8px; }
+    .ticket-header { display: none; }
+    .form-row { grid-template-columns: 1fr; }
+    .form-card { padding: 24px; }
+    .cta { flex-direction: column; align-items: flex-start; gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="topbar">
+    <div class="brand">
+      <span class="wordmark">CLEANN<span class="wordmark-sub">HQ</span></span>
+      <div class="nav">
+        <a data-page="library" class="active">Library</a>
+        <a data-page="request">Submit a Ticket</a>
+        <a data-page="my">My Tickets</a>
+        <a data-page="pipeline">All Tickets</a>
+      </div>
+    </div>
+    <div class="user-block">
+      <span class="user-name">Jason Simmonds</span>
+      <div class="avatar">JS</div>
+    </div>
+  </div>
+  <div class="amber-rule"></div>
+
+  <div class="main">
+
+    <div class="page active" id="page-library">
+      <h1 id="library-title">Good morning, Jason</h1>
+      <p class="subtitle">A premium beverage brand starts the day informed. Here's what's happening.</p>
+
+      <div class="search-wrap">
+        <div class="search">
+          <input type="text" id="searchInput" placeholder="Search decks, labels, photos, spec sheets..." />
+          <button onclick="performSearch()">Search</button>
+        </div>
+      </div>
+
+      <div class="info-row">
+
+        <div class="weather-card">
+          <div class="weather-eyebrow">
+            <span class="weather-dot"></span>
+            <span>Wolcott, Vermont</span>
+          </div>
+          <div class="weather-main">
+            <div>
+              <div class="weather-temp">64<span class="deg">°F</span></div>
+              <div class="weather-condition">Partly cloudy</div>
+              <div class="weather-feels">Feels like 62° · Wind 6 mph NW</div>
+            </div>
+            <svg class="weather-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="24" cy="24" r="11" fill="#D18B2F" opacity="0.85"/>
+              <path d="M40 38c0-4-3-7-7-7-1 0-2 0-3 1-1-5-5-9-11-9-6 0-11 5-11 11 0 1 0 2 0 3-3 1-5 4-5 7 0 4 3 7 7 7h24c4 0 7-3 7-7 0-3-1-5-1-6z" fill="#B4E1EC"/>
+            </svg>
+          </div>
+          <div class="weather-forecast">
+            <div class="weather-day">
+              <div class="day-name">Tue</div>
+              <div class="day-temps">67°<span class="low">45°</span></div>
+            </div>
+            <div class="weather-day">
+              <div class="day-name">Wed</div>
+              <div class="day-temps">60°<span class="low">42°</span></div>
+            </div>
+            <div class="weather-day">
+              <div class="day-name">Thu</div>
+              <div class="day-temps">58°<span class="low">40°</span></div>
+            </div>
+          </div>
+          <div class="weather-note">Light rain expected Thursday — plan tasting events indoors.</div>
+        </div>
+
+        <div class="news-card">
+          <div class="news-head">
+            <h3><span class="live-dot"></span>Industry News</h3>
+            <span class="news-meta">Updated 6:00 AM · 4 sources</span>
+          </div>
+          <div class="news-list" id="newsList"></div>
+          <div class="news-footer">
+            <a onclick="showToast('In the real build, this opens the full news archive.')">View all news →</a>
+          </div>
+        </div>
+
+      </div>
+
+      <div id="categoriesSection">
+        <div class="section-head"><h2>Browse the library</h2></div>
+        <div class="categories" id="categories"></div>
+
+        <div class="section-head">
+          <h2>Recently delivered</h2>
+          <a class="more" onclick="showAllAssets()">View all →</a>
+        </div>
+        <div class="recent" id="recent"></div>
+
+        <div class="section-head">
+          <h2>Active tickets</h2>
+          <a class="more" onclick="navigate('pipeline')">View all →</a>
+        </div>
+        <div class="ticket-table">
+          <div class="ticket-header" style="display: grid; grid-template-columns: 2.5fr 1fr 1fr 1fr 1fr; gap: 16px;">
+            <span>Ticket</span>
+            <span>Submitted by</span>
+            <span>Sales deadline</span>
+            <span>Marketing ECD</span>
+            <span>Status</span>
+          </div>
+          <div id="activeTickets"></div>
+        </div>
+
+        <div class="cta">
+          <div class="cta-copy">
+            <h3>Can't find it? Open a ticket.</h3>
+            <p>Triage responds within 24 hours. Tell us your deadline and we'll commit to an estimated completion date.</p>
+          </div>
+          <button class="btn-primary" onclick="navigate('request')">Submit a Ticket</button>
+        </div>
+      </div>
+
+      <div id="searchResultsSection" style="display: none;">
+        <div class="section-head">
+          <h2 id="resultsHeading">Search results</h2>
+          <a class="more" onclick="clearSearch()">← Back to library</a>
+        </div>
+        <div class="gallery" id="searchResults"></div>
+      </div>
+    </div>
+
+    <div class="page" id="page-request">
+      <h1>Submit a Ticket</h1>
+      <p class="subtitle">Before you submit, search the library — your asset might already exist.</p>
+
+      <div class="form-card">
+        <div class="deadline-callout">
+          <p><strong>How deadlines work here.</strong> You set the <strong>deadline</strong> based on the real-world need (a meeting, a launch, a print drop). Marketing reviews and sets an <strong>estimated completion date</strong>. If our ECD is later than your deadline, you'll see the ticket flagged "At Risk" — so we can talk before the wire, not at it.</p>
+        </div>
+
+        <form id="requestForm" onsubmit="submitRequest(event)">
+          <div class="form-group">
+            <label>What do you need?<span class="required-tag">REQUIRED</span></label>
+            <p class="help">One-line summary — e.g. "Spec sheet for Raspberry Lime, B2B retailer use"</p>
+            <input type="text" required name="taskName" />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Type<span class="required-tag">REQUIRED</span></label>
+              <select required name="type">
+                <option value="">Pick one...</option>
+                <option>Label</option>
+                <option>Sales Deck</option>
+                <option>Spec Sheet</option>
+                <option>Logo / Brand</option>
+                <option>Photo</option>
+                <option>Print / Postcard</option>
+                <option>POS / Retail</option>
+                <option>Swag / Apparel</option>
+                <option>Digital / Ad</option>
+                <option>Website</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Priority<span class="required-tag">REQUIRED</span></label>
+              <select required name="priority">
+                <option value="Nice-to-have">Nice-to-have</option>
+                <option value="Must-have">Must-have (someone is blocked)</option>
+                <option value="Push">Push (do it eventually)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Brief<span class="required-tag">REQUIRED</span></label>
+            <p class="help">What do you need, what's it for, and who's the audience? More detail = faster turnaround.</p>
+            <textarea required name="brief" minlength="40"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Your deadline<span class="required-tag">REQUIRED</span></label>
+            <p class="help">When does this <strong>actually</strong> need to be done? Real-world date — meeting, launch, print run, etc.</p>
+            <input type="date" required name="deadline" />
+          </div>
+
+          <div class="form-group">
+            <label>Reference link (optional)</label>
+            <p class="help">Drive folder, existing version, inspiration — anything that helps us.</p>
+            <input type="url" name="reference" placeholder="https://..." />
+          </div>
+
+          <div style="display: flex; gap: 12px; padding-top: 12px;">
+            <button type="submit" class="btn-primary">Submit Ticket</button>
+            <button type="button" class="btn-ghost" onclick="navigate('library')">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="page" id="page-my">
+      <h1>My Tickets</h1>
+      <p class="subtitle">Tickets you've submitted, sorted by most recent.</p>
+      <div class="ticket-table">
+        <div class="ticket-header" style="display: grid; grid-template-columns: 2.5fr 1fr 1fr 1fr 1fr; gap: 16px;">
+          <span>Ticket</span>
+          <span>Submitted</span>
+          <span>Your deadline</span>
+          <span>Marketing ECD</span>
+          <span>Status</span>
+        </div>
+        <div id="myTickets"></div>
+      </div>
+    </div>
+
+    <div class="page" id="page-pipeline">
+      <h1>All Tickets</h1>
+      <p class="subtitle">All active marketing tickets across the team. Drag to update status.</p>
+      <div class="kanban" id="kanban"></div>
+    </div>
+
+  </div>
+
+  <div class="footer-note">
+    <span class="serif">CLEANN HQ</span> · A premium internal portal · Crafted in Vermont · Built on Wix
+  </div>
+</div>
+
+<div class="modal-backdrop" id="modalBackdrop" onclick="if(event.target.id==='modalBackdrop')closeModal()">
+  <div class="modal" id="modal"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const ASSETS = [
+  { name: "Raspberry Lime FOIL Label", type: "Label", product: "Raspberry Lime", version: "Final", date: "Apr 20, 2026", status: "Latest", thumb: "Raspberry Lime — Final Label", previewType: "label", previewMeta: { line: "Premium Delta-9 THC", title: "Raspberry Lime", tagline: "Crafted in Vermont", mark: "5MG · 12 FL OZ" }, previewSize: "PNG · 2.4 MB", sourceFormat: "AI", sourceSize: "18.2 MB" },
+  { name: "Sales Deck — Total Wine", type: "Sales Deck", product: "Brand-wide", version: "Draft v3", date: "Apr 21, 2026", status: "In Review", thumb: "Total Wine Pitch Deck", previewType: "deck", previewMeta: { eyebrow: "Q2 2026 Pitch", title: "Total Wine Partnership", subtitle: "A premium beverage opportunity for Total Wine & More", pageCount: "1 of 24" }, previewSize: "PDF · 8.1 MB · 24 pages", sourceFormat: "KEY", sourceSize: "142 MB" },
+  { name: "Mocktail Postcard", type: "Print", product: "CLEANN Apple", version: "v2", date: "Apr 22, 2026", status: "Latest", thumb: "Mocktail Promo Postcard", previewType: "label", previewMeta: { line: "Spring 2026", title: "Try the Mocktail", tagline: "Apple. Crisp. Clean.", mark: "POSTCARD · 4×6" }, previewSize: "PDF · 1.2 MB", sourceFormat: "INDD", sourceSize: "24.8 MB" },
+  { name: "CLEANN Logo Pack 2025", type: "Logo", product: "Brand-wide", version: "2025", date: "Jan 15, 2026", status: "Latest", thumb: "Brand Logo Pack", previewType: "logo", previewMeta: { mark: "C", wordmark: "CLEANN" }, previewSize: "ZIP · 12 MB · 8 formats", sourceFormat: "AI", sourceSize: "32 MB" },
+  { name: "Distributor Sales Deck", type: "Sales Deck", product: "Brand-wide", version: "v2", date: "Mar 12, 2026", status: "Latest", thumb: "Distributor Pitch", previewType: "deck", previewMeta: { eyebrow: "Distributor Network", title: "Stock CLEANN", subtitle: "A premium Delta-9 THC beverage made in Vermont", pageCount: "1 of 18" }, previewSize: "PDF · 6.4 MB · 18 pages", sourceFormat: "KEY", sourceSize: "98 MB" },
+  { name: "Apple Spec Sheet", type: "Spec Sheet", product: "CLEANN Apple", version: "v1", date: "Feb 8, 2026", status: "Latest", thumb: "Apple Specs", previewType: "pdf", previewMeta: { eyebrow: "Product Spec", title: "CLEANN Apple", pageCount: "Page 1 of 2" }, previewSize: "PDF · 480 KB", sourceFormat: "INDD", sourceSize: "8.4 MB" },
+  { name: "Raspberry Lime Spec Sheet", type: "Spec Sheet", product: "Raspberry Lime", version: "v1", date: "Apr 22, 2026", status: "Latest", thumb: "Raspberry Lime Specs", previewType: "pdf", previewMeta: { eyebrow: "Product Spec", title: "Raspberry Lime", pageCount: "Page 1 of 2" }, previewSize: "PDF · 510 KB", sourceFormat: "INDD", sourceSize: "9.1 MB" },
+  { name: "Tasting Photos — Spring 2026", type: "Photo", product: "Brand-wide", version: "Final", date: "Apr 10, 2026", status: "Latest", thumb: "Spring Tasting Photos", previewType: "photo", previewMeta: { caption: "Spring tasting · Stowe, VT" }, previewSize: "JPG · 4.8 MB · 28 photos", sourceFormat: "RAW", sourceSize: "2.1 GB" },
+  { name: "CLEANN Show Reel — Spring 2026", type: "Photo", product: "Brand-wide", version: "v1", date: "Apr 24, 2026", status: "Latest", thumb: "CLEANN Show Reel", previewType: "video", previewMeta: { title: "CLEANN Show Reel · Spring 2026", duration: "2:34" }, previewSize: "MP4 · 84 MB · 1080p", sourceFormat: "PRPROJ", sourceSize: "12.4 GB" },
+];
+
+const TICKETS = [
+  { id: "T-014", name: "BevNet Ad — 4 Apples", submittedBy: "Jason", submittedDate: "Apr 18", deadline: "May 4", ecd: "May 1", status: "In Progress", brief: "Polish existing version. Ad due to BevNet by 5/04." },
+  { id: "T-013", name: "Distributor Tee for Austin", submittedBy: "Jason", submittedDate: "Apr 15", deadline: "May 15", ecd: "May 20", status: "In Progress", brief: "Concert tee for Austin distributor activation." },
+  { id: "T-012", name: "Concert Tee for Tastings", submittedBy: "Jason", submittedDate: "Apr 12", deadline: "Jun 1", ecd: "May 28", status: "In Progress", brief: "Tee design for tasting events." },
+  { id: "T-011", name: "Cider Can Revisions", submittedBy: "Steve", submittedDate: "Apr 10", deadline: "Apr 30", ecd: "May 3", status: "In Progress", brief: "Updates to cider can artwork." },
+  { id: "T-010", name: "FAQ Sheet", submittedBy: "Jason", submittedDate: "Apr 8", deadline: "May 5", ecd: "Apr 30", status: "Ready for Review", brief: "FAQ sheet for retailers — Renee reviewing." },
+  { id: "T-009", name: "Brand Guidelines Update", submittedBy: "Joel", submittedDate: "Apr 5", deadline: "Jun 15", ecd: "Jun 10", status: "In Progress", brief: "Include Bill's suggestions in next revision." },
+  { id: "T-008", name: "Mocktail Postcard", submittedBy: "Joel", submittedDate: "Apr 3", deadline: "Apr 30", ecd: "Apr 28", status: "Ready for Review", brief: "Working with Eli on layout." },
+  { id: "T-007", name: "Distro Box — 3 Can SKU", submittedBy: "Steve", submittedDate: "Mar 28", deadline: "May 10", ecd: "May 5", status: "Acknowledged", brief: "Reorder of existing 3-can distro box." },
+];
+
+const CATEGORIES = [
+  { name: "Sales Decks", type: "Sales Deck" },
+  { name: "Logos & Brand", type: "Logo" },
+  { name: "Photos", type: "Photo" },
+  { name: "Spec Sheets", type: "Spec Sheet" },
+  { name: "Labels", type: "Label" },
+  { name: "POS & Retail", type: "POS" },
+  { name: "Print & Ads", type: "Print" },
+  { name: "Swag & Apparel", type: "Swag" },
+];
+
+const HEADLINES = [
+  { source: "BevNET", sourceClass: "", time: "2h ago", headline: "Cycling Frog secures national distribution deal with Total Wine & More", url: "https://bevnet.com" },
+  { source: "VT Compliance", sourceClass: "compliance", time: "6h ago", headline: "Vermont updates Delta-9 packaging requirements ahead of 2027 retail expansion", url: "" },
+  { source: "Hemp Industry Daily", sourceClass: "", time: "11h ago", headline: "Hi-Five Cannabis raises $12M Series B led by Lerer Hippeau to scale beverage line", url: "https://hempindustrydaily.com" },
+  { source: "Brewbound", sourceClass: "local", time: "Yesterday", headline: "Athletic Brewing partners with Whole Foods on summer THC-adjacent activation", url: "https://brewbound.com" },
+  { source: "Beverage Daily", sourceClass: "", time: "Yesterday", headline: "Connecticut considers tightening retail rules on hemp beverages — vote in June", url: "https://beveragedaily.com" },
+];
+
+let currentPage = "library";
+
+function isAtRisk(ticket) {
+  if (!ticket.deadline || !ticket.ecd || ticket.ecd === "—") return false;
+  const parse = s => new Date(s + ", 2026");
+  return parse(ticket.ecd) > parse(ticket.deadline);
+}
+
+function pillForTicket(status, atRisk) {
+  if (atRisk) return `<span class="pill pill-risk">At Risk</span>`;
+  const map = {
+    "Submitted": "pill-submitted",
+    "Acknowledged": "pill-acknowledged",
+    "In Progress": "pill-progress",
+    "Ready for Review": "pill-review",
+    "Delivered": "pill-delivered",
+  };
+  return `<span class="pill ${map[status] || 'pill-submitted'}">${status}</span>`;
+}
+
+function pillForAsset(status) {
+  const map = { "Latest": "pill-latest", "In Review": "pill-review", "Draft": "pill-submitted" };
+  return `<span class="pill ${map[status] || 'pill-submitted'}">${status}</span>`;
+}
+
+function renderCategories() {
+  const container = document.getElementById("categories");
+  container.innerHTML = CATEGORIES.map(cat => {
+    const count = ASSETS.filter(a => a.type === cat.type).length;
+    return `<div class="category" onclick="filterByType('${cat.type}')"><h3>${cat.name}</h3><p>${count} item${count === 1 ? '' : 's'}</p></div>`;
+  }).join("");
+}
+
+function renderRecent() {
+  document.getElementById("recent").innerHTML = ASSETS.slice(0, 3).map(a => assetCard(a)).join("");
+}
+
+function assetCard(asset) {
+  return `<div class="asset" onclick="openAsset(${ASSETS.indexOf(asset)})"><div class="asset-thumb">${asset.thumb}</div><div class="asset-body"><p class="asset-title">${asset.name}</p><p class="asset-meta">${asset.type.toUpperCase()} · ${asset.version} · ${asset.date}</p>${pillForAsset(asset.status)}</div></div>`;
+}
+
+function renderActiveTickets() {
+  const active = TICKETS.filter(t => t.status !== "Delivered").slice(0, 4);
+  document.getElementById("activeTickets").innerHTML = active.map(t => ticketRow(t)).join("");
+}
+
+function ticketRow(t, opts = {}) {
+  const atRisk = isAtRisk(t);
+  return `<div class="ticket-row${atRisk ? ' is-at-risk' : ''}"><div><p class="col-label">${t.name}</p><p class="col-meta">${t.id} · ${t.brief.length > 60 ? t.brief.slice(0, 60) + '…' : t.brief}</p></div><div class="col-date"><span class="date-label">${opts.subView ? 'Submitted' : 'By'}</span>${opts.subView ? t.submittedDate : t.submittedBy}</div><div class="col-date"><span class="date-label">Deadline</span>${t.deadline}</div><div class="col-date"><span class="date-label">ECD</span><span class="${atRisk ? 'at-risk' : ''}">${t.ecd}</span></div><div>${pillForTicket(t.status, atRisk)}</div></div>`;
+}
+
+function renderMyTickets() {
+  const container = document.getElementById("myTickets");
+  const mine = TICKETS.filter(t => t.submittedBy === "Jason");
+  if (mine.length === 0) {
+    container.innerHTML = '<div class="empty"><span class="serif">No tickets yet</span>Submit your first one and it\'ll appear here.<br><br><button class="btn-primary" onclick="navigate(\'request\')">Submit a Ticket</button></div>';
+    return;
+  }
+  container.innerHTML = mine.map(t => ticketRow(t, { subView: true })).join("");
+}
+
+function renderPipeline() {
+  const cols = ["Acknowledged", "In Progress", "Ready for Review", "Delivered"];
+  document.getElementById("kanban").innerHTML = cols.map(col => {
+    const cards = TICKETS.filter(t => t.status === col);
+    return `<div class="column"><div class="col-head"><span>${col}</span><span>${cards.length}</span></div>${cards.length === 0 ? '<p style="font-size: 11px; color: var(--text-dim); text-align: center; padding: 20px 0;">Empty</p>' : cards.map(c => { const atRisk = isAtRisk(c); return `<div class="card${atRisk ? ' at-risk-card' : ''}"><p class="card-title">${c.name}</p><p class="card-meta">${c.submittedBy} · Due ${c.deadline}${atRisk ? ' · <span class="at-risk">At Risk</span>' : ''}</p></div>`; }).join('')}</div>`;
+  }).join("");
+}
+
+function renderNews() {
+  document.getElementById("newsList").innerHTML = HEADLINES.map(n => `<div class="news-item" onclick="openHeadline('${n.url}', ${JSON.stringify(n.source).replace(/"/g, '&quot;')})"><div class="news-source-row"><span class="news-source ${n.sourceClass}">${n.source}</span><span class="news-time">${n.time}</span></div><p class="news-headline">${n.headline}</p></div>`).join("");
+}
+
+function openHeadline(url, source) {
+  if (url) showToast("Opening " + source + " article in a new tab...");
+  else showToast(source + " is an internal compliance update — view the full memo in the team Drive.");
+}
+
+function navigate(page) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll(".nav a").forEach(a => a.classList.remove("active"));
+  document.getElementById("page-" + page).classList.add("active");
+  document.querySelector(`.nav a[data-page="${page}"]`).classList.add("active");
+  currentPage = page;
+  window.scrollTo(0, 0);
+  if (page === "library") clearSearch();
+}
+
+function performSearch() {
+  const q = document.getElementById("searchInput").value.trim().toLowerCase();
+  if (!q) { clearSearch(); return; }
+  const results = ASSETS.filter(a => a.name.toLowerCase().includes(q) || a.type.toLowerCase().includes(q) || a.product.toLowerCase().includes(q));
+  showResults(results, `Search results for "${q}"`);
+}
+
+function filterByType(type) {
+  const results = ASSETS.filter(a => a.type === type);
+  const cat = CATEGORIES.find(c => c.type === type);
+  showResults(results, cat ? cat.name : type);
+}
+
+function showResults(results, heading) {
+  document.getElementById("categoriesSection").style.display = "none";
+  document.getElementById("searchResultsSection").style.display = "block";
+  document.getElementById("resultsHeading").textContent = heading + ` · ${results.length}`;
+  const container = document.getElementById("searchResults");
+  if (results.length === 0) {
+    container.innerHTML = `<div class="empty" style="grid-column: 1 / -1;"><span class="serif">Nothing matched</span><a class="more" style="cursor: pointer;" onclick="navigate('request')">Submit a ticket →</a> to get it made.</div>`;
+  } else {
+    container.innerHTML = results.map(a => assetCard(a)).join("");
+  }
+}
+
+function showAllAssets() { showResults(ASSETS, "All assets"); }
+
+function clearSearch() {
+  document.getElementById("searchInput").value = "";
+  document.getElementById("categoriesSection").style.display = "block";
+  document.getElementById("searchResultsSection").style.display = "none";
+}
+
+function renderPreview(a) {
+  const m = a.previewMeta || {};
+  if (a.previewType === "label") return `<div class="preview-frame-label"><div class="product-line">${m.line || ''}</div><div class="product-name">${m.title || a.name}</div><div class="product-tagline">${m.tagline || ''}</div><div class="product-mark">${m.mark || ''}</div></div>`;
+  if (a.previewType === "deck") return `<div class="preview-frame-deck"><div class="deck-eyebrow">${m.eyebrow || ''}</div><div class="deck-title">${m.title || a.name}</div><div class="deck-subtitle">${m.subtitle || ''}</div><div class="deck-footer"><span>CLEANN · Confidential</span><span>${m.pageCount || ''}</span></div></div>`;
+  if (a.previewType === "pdf") return `<div class="preview-frame-pdf"><div class="pdf-header"><div class="pdf-eyebrow">${m.eyebrow || ''}</div><div class="pdf-title">${m.title || a.name}</div></div><div class="pdf-line medium"></div><div class="pdf-line short"></div><div class="pdf-line medium"></div><div class="pdf-block"></div><div class="pdf-line medium"></div><div class="pdf-line short"></div><div class="pdf-line medium"></div><div class="pdf-line short"></div><div class="pdf-page-num">${m.pageCount || 'Page 1'}</div></div>`;
+  if (a.previewType === "photo") return `<div class="preview-frame-photo"><div class="photo-meta">${m.caption || a.name}</div></div>`;
+  if (a.previewType === "logo") return `<div class="preview-frame-logo"><div class="logo-circle">${m.mark || 'C'}</div><div class="logo-wordmark">${m.wordmark || 'CLEANN'}</div></div>`;
+  if (a.previewType === "video") return `<div class="preview-frame-video" onclick="showToast('In the real build, this plays the video inline.')"><div class="play-btn"></div><div class="video-meta">${m.title || a.name}</div><div class="video-duration">${m.duration || '0:00'}</div></div>`;
+  return `<div style="color: var(--soft-cyan); font-family: var(--serif); font-style: italic;">Preview not available — download the source file to view</div>`;
+}
+
+function openAsset(idx) {
+  const a = ASSETS[idx];
+  document.getElementById("modal").innerHTML = `<div class="modal-preview-area">${renderPreview(a)}</div><div class="preview-info-bar"><span><span class="label">Preview</span>${a.previewSize || '—'}</span><span><span class="label">Source</span>${a.sourceFormat || '—'} · ${a.sourceSize || '—'}</span></div><div class="modal-content"><div class="modal-head"><h2>${a.name}</h2><button class="modal-close" onclick="closeModal()">×</button></div><div class="modal-meta"><span class="label">Type</span><span>${a.type}</span><span class="label">Product</span><span>${a.product}</span><span class="label">Version</span><span>${a.version}</span><span class="label">Last updated</span><span>${a.date}</span><span class="label">Status</span><span>${pillForAsset(a.status)}</span></div><div class="modal-actions"><button class="btn-primary" onclick="openSource('${a.sourceFormat}')">Open Source File</button><button class="btn-ghost" onclick="downloadPreview('${a.previewSize}')">Download Preview</button><button class="btn-ghost" onclick="requestVariation('${a.name.replace(/'/g, "\\'")}')">Request a Variation</button></div></div>`;
+  document.getElementById("modalBackdrop").classList.add("show");
+}
+
+function closeModal() { document.getElementById("modalBackdrop").classList.remove("show"); }
+function openSource(fmt) { closeModal(); showToast("Opening source file in Drive (" + fmt + "). In the real build, this opens the editable original."); }
+function downloadPreview(size) { closeModal(); showToast("Downloading preview (" + size + "). Safe to share — flat file, no source."); }
+function requestVariation(name) { closeModal(); navigate("request"); setTimeout(() => { document.querySelector('input[name="taskName"]').value = "Variation of: " + name; }, 100); }
+
+function submitRequest(e) {
+  e.preventDefault();
+  const data = new FormData(e.target);
+  const today = new Date();
+  const newReq = { id: "T-" + String(15 + Math.floor(Math.random() * 100)).padStart(3, "0"), name: data.get("taskName"), submittedBy: "Jason", submittedDate: today.toLocaleDateString("en-US", {month: "short", day: "numeric"}), deadline: new Date(data.get("deadline")).toLocaleDateString("en-US", {month: "short", day: "numeric"}), ecd: "—", status: "Submitted", brief: data.get("brief") };
+  TICKETS.unshift(newReq);
+  e.target.reset();
+  renderActiveTickets(); renderMyTickets(); renderPipeline();
+  navigate("my");
+  showToast("Ticket submitted. Triage will set an estimated completion date within 24 hours.");
+}
+
+function showToast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 4500);
+}
+
+document.querySelectorAll(".nav a").forEach(a => { a.addEventListener("click", e => { e.preventDefault(); navigate(a.dataset.page); }); });
+document.getElementById("searchInput").addEventListener("keydown", e => { if (e.key === "Enter") performSearch(); });
+
+renderCategories(); renderRecent(); renderActiveTickets(); renderMyTickets(); renderPipeline(); renderNews();
+</script>
+</body>
+</html>
